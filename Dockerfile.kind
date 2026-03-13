@@ -1,0 +1,18 @@
+FROM ubuntu:24.04
+
+# Utilitaires de base
+RUN apt-get update && \
+    apt-get install -y curl git docker.io && \
+    apt-get clean
+
+# Installer kubectl
+RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
+    install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+# Installer Kind
+RUN curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.26.0/kind-linux-amd64 && \
+    chmod +x kind && \
+    mv kind /usr/local/bin
+
+WORKDIR /workspace
+CMD ["/bin/bash"]cls
